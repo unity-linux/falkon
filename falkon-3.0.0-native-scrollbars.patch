@@ -1,0 +1,41 @@
+From 3e7e3cc9d75eb33354ddb61aa028cb9d09d315a4 Mon Sep 17 00:00:00 2001
+Message-Id: <3e7e3cc9d75eb33354ddb61aa028cb9d09d315a4.1490315571.git.kevin.kofler@chello.at>
+From: Kevin Kofler <kevin.kofler@chello.at>
+Date: Fri, 24 Mar 2017 01:32:25 +0100
+Subject: [PATCH] Revert "Disable native scrollbars by default"
+
+This reverts commit 9211a8eceb3c0c79d6f270b36c84a96ba5824352.
+---
+ src/lib/preferences/preferences.cpp       | 2 +-
+ src/lib/webengine/webscrollbarmanager.cpp | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/lib/preferences/preferences.cpp b/src/lib/preferences/preferences.cpp
+index d6b1a3d..46fa16b 100644
+--- a/src/lib/preferences/preferences.cpp
++++ b/src/lib/preferences/preferences.cpp
+@@ -278,7 +278,7 @@
+     ui->wheelScroll->setValue(settings.value("wheelScrollLines", qApp->wheelScrollLines()).toInt());
+     ui->xssAuditing->setChecked(settings.value("XSSAuditing", false).toBool());
+     ui->printEBackground->setChecked(settings.value("PrintElementBackground", true).toBool());
+-    ui->useNativeScrollbars->setChecked(settings.value("UseNativeScrollbars", false).toBool());
++    ui->useNativeScrollbars->setChecked(settings.value("UseNativeScrollbars", true).toBool());
+ 
+     foreach (int level, WebView::zoomLevels()) {
+         ui->defaultZoomLevel->addItem(QString("%1%").arg(level));
+diff --git a/src/lib/webengine/webscrollbarmanager.cpp b/src/lib/webengine/webscrollbarmanager.cpp
+index ff7c963..8ae55f0 100644
+--- a/src/lib/webengine/webscrollbarmanager.cpp
++++ b/src/lib/webengine/webscrollbarmanager.cpp
+@@ -109,7 +109,7 @@ WebScrollBarManager::WebScrollBarManager(QObject *parent)
+ 
+ void WebScrollBarManager::loadSettings()
+ {
+-    m_enabled = Settings().value(QSL("Web-Browser-Settings/UseNativeScrollbars"), false).toBool();
++    m_enabled = Settings().value(QSL("Web-Browser-Settings/UseNativeScrollbars"), true).toBool();
+ 
+     if (!m_enabled) {
+         for (WebView *view : m_scrollbars.keys()) {
+-- 
+2.9.3
+

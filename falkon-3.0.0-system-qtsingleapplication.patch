@@ -1,0 +1,61 @@
+diff -ur falkon-3.0.0/src/lib/app/mainapplication.h falkon-3.0.0-system-qtsingleapplication/src/lib/app/mainapplication.h
+--- falkon-3.0.0/src/lib/app/mainapplication.h	2018-02-27 14:56:58.000000000 +0100
++++ falkon-3.0.0-system-qtsingleapplication/src/lib/app/mainapplication.h	2018-03-04 22:12:35.579040067 +0100
+@@ -23,7 +23,7 @@
+ #include <QList>
+ #include <QPointer>
+ 
+-#include "qtsingleapplication/qtsingleapplication.h"
++#include <QtSolutions/qtsingleapplication.h>
+ #include "restoremanager.h"
+ #include "qzcommon.h"
+ 
+diff -ur falkon-3.0.0/src/lib/CMakeLists.txt falkon-3.0.0-system-qtsingleapplication/src/lib/CMakeLists.txt
+--- falkon-3.0.0/src/lib/CMakeLists.txt	2018-02-27 14:56:58.000000000 +0100
++++ falkon-3.0.0-system-qtsingleapplication/src/lib/CMakeLists.txt	2018-03-04 22:32:16.148047601 +0100
+@@ -3,11 +3,6 @@
+ set(CMAKE_CXX_STANDARD 14) # Enable C++14, with cmake >= 3.1
+ set(CMAKE_CXX_EXTENSIONS OFF) # Don't enable gcc-specific extensions
+ 
+-set(SRCS
+-    3rdparty/qtsingleapplication/qtsingleapplication.cpp
+-    3rdparty/qtsingleapplication/qtlocalpeer.cpp
+-)
+-
+ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+     set(SRCS ${SRCS} ${CMAKE_SOURCE_DIR}/tests/modeltest/modeltest.cpp)
+     include_directories(${CMAKE_SOURCE_DIR}/tests/modeltest)
+@@ -295,7 +290,7 @@
+ 
+ add_library(FalkonPrivate SHARED ${SRCS})
+ 
+-target_link_libraries(FalkonPrivate Qt5::Widgets Qt5::WebEngineWidgets Qt5::Network Qt5::Sql Qt5::PrintSupport Qt5::QuickWidgets Qt5::WebChannel)
++target_link_libraries(FalkonPrivate Qt5::Widgets Qt5::WebEngineWidgets Qt5::Network Qt5::Sql Qt5::PrintSupport Qt5::QuickWidgets Qt5::WebChannel Qt5Solutions_SingleApplication-2.6)
+ 
+ if (UNIX AND NOT APPLE)
+     if (NOT NO_X11)
+diff -ur falkon-3.0.0/src/plugins/PyFalkon/pyfalkon_global.h falkon-3.0.0-system-qtsingleapplication/src/plugins/PyFalkon/pyfalkon_global.h
+--- falkon-3.0.0/src/plugins/PyFalkon/pyfalkon_global.h	2018-02-27 14:56:58.000000000 +0100
++++ falkon-3.0.0-system-qtsingleapplication/src/plugins/PyFalkon/pyfalkon_global.h	2018-03-04 22:11:28.843072479 +0100
+@@ -23,7 +23,7 @@
+ #include "lineedit.h"
+ #include "squeezelabelv1.h"
+ #include "squeezelabelv2.h"
+-#include "qtsingleapplication/qtsingleapplication.h"
++#include <QtSolutions/qtsingleapplication.h>
+ 
+ // app
+ #include "autosaver.h"
+diff -ur falkon-3.0.0/src/plugins/PyFalkon/pyfalkon.xml falkon-3.0.0-system-qtsingleapplication/src/plugins/PyFalkon/pyfalkon.xml
+--- falkon-3.0.0/src/plugins/PyFalkon/pyfalkon.xml	2018-02-27 14:56:58.000000000 +0100
++++ falkon-3.0.0-system-qtsingleapplication/src/plugins/PyFalkon/pyfalkon.xml	2018-03-04 22:10:58.178546862 +0100
+@@ -21,7 +21,7 @@
+     <object-type name="SqueezeLabelV1"/>
+     <object-type name="SqueezeLabelV2"/>
+     <object-type name="QtSingleApplication">
+-      <include file-name="qtsingleapplication/qtsingleapplication.h" location="global"/>
++      <include file-name="QtSolutions/qtsingleapplication.h" location="global"/>
+       <modify-function signature="QtSingleApplication(int&amp;,char**,bool)" remove="all"/>
+       <modify-function signature="QtSingleApplication(QString,int&amp;,char**)" remove="all"/>
+     </object-type>
+
