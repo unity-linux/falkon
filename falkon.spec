@@ -1,11 +1,9 @@
-%define		oname		Falkon
 %define		major		3
-%define		libname		%mklibname %{name}private %{major}
 
 Name:		falkon
 Summary:	Cross-platform Qt Web Browser based on QtWebEngine
 Version:	3.0.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 Group:		Networking/WWW
 License:	GPLv3+ and BSD and LGPLv2+ and GPLv2+ and MPL
 URL:		http://www.qupzilla.com/
@@ -69,10 +67,10 @@ in ~/.config/qupzilla/).
 There is no automatic migration.
 
 %package core
-Summary:	%{oname} web browser core package
+Summary:	%{name} web browser core package
 Group:		Networking/WWW
 Provides:	webclient
-Requires:	%{libname} = %{version}-%{release}
+Requires:	%{_lib}%{name}private%{major} = %{version}-%{release}
 Requires:	qtbase5-database-plugin-sqlite
 Requires:	qtwebengine5
 
@@ -108,7 +106,7 @@ in ~/.config/qupzilla/).
 There is no automatic migration.
 
 %package plugins
-Summary:	Various plugins for %{oname} web browser
+Summary:	Various plugins for %{name} web browser
 Group:		Networking/WWW
 Requires:	%{name}-core = %{version}
 
@@ -125,7 +123,7 @@ application in almost any way. This package contains the following plugins:
 * GreaseMonkey
 
 %package gnome-keyring
-Summary:	GNOME keyring plugin for %{oname} web browser
+Summary:	GNOME keyring plugin for %{name} web browser
 Group:		Networking/WWW
 BuildRequires:	pkgconfig(gnome-keyring-1)
 Requires:	%{name}-core = %{version}-%{release}
@@ -134,11 +132,11 @@ Obsoletes:	qupzilla-gnome-keyring < 2.2.5-2
 Provides:	qupzilla-gnome-keyring = %{version}-%{release}
 
 %description gnome-keyring
-Plugin for %{oname} web browser that allows to store passwords in
+Plugin for %{name} web browser that allows to store passwords in
 GNOME Keyring.
 
 %package kwallet
-Summary:	Kwallet plugin for %{oname} web browser
+Summary:	Kwallet plugin for %{name} web browser
 Group:		Networking/WWW
 BuildRequires:	cmake(KF5Wallet)
 Requires:	%{name}-core = %{version}-%{release}
@@ -147,17 +145,17 @@ Obsoletes:	qupzilla-kwallet < 2.2.5-2
 Provides:	qupzilla-kwallet = %{version}-%{release}
 
 %description kwallet
-Plugin for %{oname} web browser that allows to store passwords in Kwallet.
+Plugin for %{name} web browser that allows to store passwords in Kwallet.
 
-%package -n %{libname}
-Summary:	%{oname} shared library
+%package -n %{_lib}%{name}private%{major}
+Summary:	%{name} shared library
 Group:		System/Libraries
 
 Obsoletes:	%{_lib}qupzilla2 < 2.2.5-2
 Obsoletes:	%{_lib}qupzilla-devel < 2.2.5-2
 
-%description -n %{libname}
-Shared library used by %{oname} web browser.
+%description -n %{_lib}%{name}private%{major}
+Shared library used by %{name} web browser.
 
 %prep
 %setup -q
@@ -217,7 +215,10 @@ cat *_qt.lang  > %{name}.lang
 %files kwallet
 %{_qt5_plugindir}/%{name}/KWalletPasswords.so
 
-%files -n %{libname}
+%files -n %{_lib}%{name}private%{major}
 %{_libdir}/libFalkonPrivate.so.%{major}{,.*}
 
 %changelog
+* Wed Apr 11 2018 Jeremiah Summers <jsummers@glynlyon.com> 3.0.0-3
+- new package built with tito
+- Rework spec file to be more distro agnostic
